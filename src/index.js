@@ -8,15 +8,15 @@ import sockets from './data/sockets';
 
 // The reducers in our chat application.
 import { combineReducers } from 'redux-immutablejs';
-import chatReducer from './pages/chat/reducer';
-import loginReducer from './pages/login/reducer';
-import dataReducer from './data/reducer';
-import { reducer as formReducer } from 'redux-form';
+// import chatReducer from './pages/chat/reducer';
+// import loginReducer from './pages/login/reducer';
+// import dataReducer from './data/reducer';
+// import { reducer as formReducer } from 'redux-form';
 import { routerReducer as routerReducer, syncHistoryWithStore } from 'react-router-redux';
 
- // The pages in our chat application.
-import Chat from './pages/chat/view';
-import Login from './pages/login/view';
+// The pages in our chat application.
+// import Chat from './pages/chat/view';
+import Login from './pages/login';
 import Wrapper from './app/view';
 
 import { login } from './data/actions';
@@ -39,7 +39,7 @@ const routes = (
       <IndexRedirect to='/login' />
     </Route>
     <Route component={Login} path='/login' />
-    <Route component={Chat} path='/chat' />
+    {/* Add /chat route */}
     <Route path='*'>
       <IndexRedirect to='/login' />
     </Route>
@@ -50,10 +50,10 @@ const routes = (
  * The application's main reducer.
  */
 const reducer = combineReducers({
-  chat: chatReducer,
-  data: dataReducer,
-  form: formReducer,
-  login: loginReducer,
+  // chat: chatReducer,
+  // data: dataReducer,
+  // form: formReducer,
+  // login: loginReducer,
   router: routerReducer
 });
 
