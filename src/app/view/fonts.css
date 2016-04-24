@@ -1,0 +1,41 @@
+/*
+ * Font stylesheet
+ * This file includes all fonts used by the apptvate tagger application.
+ */
+
+@font-face {
+  font-family: 'Rubik-Bold';
+  src: url('./fonts/Rubik/Rubik-Bold.eot');
+  src: url('./fonts/Rubik/Rubik-Bold.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/Rubik/Rubik-Bold.woff2') format('woff2'),
+       url('./fonts/Rubik/Rubik-Bold.woff') format('woff'),
+       url('./fonts/Rubik/Rubik-Bold.ttf') format('truetype'),
+       url('./fonts/Rubik/Rubik-Bold.svg#rubikbold') format('svg');
+}
+@font-face {
+  font-family: 'Rubik-Medium';
+  src: url('./fonts/Rubik/Rubik-Medium.eot');
+  src: url('./fonts/Rubik/Rubik-Medium.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/Rubik/Rubik-Medium.woff2') format('woff2'),
+       url('./fonts/Rubik/Rubik-Medium.woff') format('woff'),
+       url('./fonts/Rubik/Rubik-Medium.ttf') format('truetype'),
+       url('./fonts/Rubik/Rubik-Medium.svg#rubikbold') format('svg');
+}
+@font-face {
+  font-family: 'Rubik-Regular';
+  src: url('./fonts/Rubik/Rubik-Regular.eot');
+  src: url('./fonts/Rubik/Rubik-Regular.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/Rubik/Rubik-Regular.woff2') format('woff2'),
+       url('./fonts/Rubik/Rubik-Regular.woff') format('woff'),
+       url('./fonts/Rubik/Rubik-Regular.ttf') format('truetype'),
+       url('./fonts/Rubik/Rubik-Regular.svg#rubikbold') format('svg');
+}
+@font-face {
+  font-family: 'Rubik-Light';
+  src: url('./fonts/Rubik/Rubik-Light.eot');
+  src: url('./fonts/Rubik/Rubik-Light.eot?#iefix') format('embedded-opentype'),
+       url('./fonts/Rubik/Rubik-Light.woff2') format('woff2'),
+       url('./fonts/Rubik/Rubik-Light.woff') format('woff'),
+       url('./fonts/Rubik/Rubik-Light.ttf') format('truetype'),
+       url('./fonts/Rubik/Rubik-Light.svg#rubikbold') format('svg');
+}

@@ -1,0 +1,41 @@
+/*
+ * Global stylesheet
+ * Overrides some resetted (see ./reset.css) default browser styles to reduce
+ * CSS code throughout the rest of the codebase.
+ */
+
+html, body {
+  font-family: Rubik-Light;
+  /* Disable bounce effect in browsers */
+  overflow: hidden;
+}
+
+html, body, div#root {
+  /* Avoid white flashes when resizing the window */
+  background-color: white;
+  /* This app is full browser window all the way */
+  width: 100%;
+  height: 100%;
+}
+
+* {
+  /* Best practice, see http://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  /* Disable user select */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+button {
+  /* We do not want to render buttons as we know them from Windows 95 ;)
+     So, we undress button tags from their default styles. */
+  background: none;
+  border: 0;
+  outline: 0;
+  box-shadow: none;
+  padding: 0;
+}

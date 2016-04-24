@@ -1,0 +1,64 @@
+{
+  "name": "smack-web",
+  "version": "0.0.1",
+  "description": "A front end for the Smack chat application",
+  "repository": "https://github.com/Codifly/smack-web.git",
+  "contributors": [
+    {
+      "name": "Arvid De Meyer",
+      "email": "arvid@codifly.be"
+    },
+    {
+      "name": "Kristof Van Miegem",
+      "email": "kristof@codifly.be"
+    }
+  ],
+  "scripts": {
+    "test": "echo \"Error: test command not supported yet.\" && exit 1",
+    "build": "rm -rf ./dist && NODE_ENV=production webpack --config webpack.config.babel.js",
+    "dev": "webpack-dev-server --port 9003 --hot --inline --watch --config webpack.config.babel.js"
+  },
+  "private": true,
+  "license": "UNLICENSED",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.7.6",
+    "babel-eslint": "^6.0.2",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-runtime": "^6.7.5",
+    "babel-polyfill": "^6.7.4",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "eslint": "^2.7.0",
+    "eslint-loader": "^1.3.0",
+    "eslint-plugin-babel": "^3.2.0",
+    "eslint-plugin-import": "^1.4.0",
+    "eslint-plugin-react": "^4.3.0",
+    "file-loader": "^0.8.5",
+    "html-webpack-plugin": "^2.15.0",
+    "immutable": "^3.7.6",
+    "normalize.css": "^4.0.0",
+    "normalizr": "^2.0.1",
+    "radium": "^0.17.1",
+    "react": "^0.14.8",
+    "react-dom": "^0.14.8",
+    "react-immutable-proptypes": "^1.7.1",
+    "react-redux": "^4.4.2",
+    "react-router": "^2.0.1",
+    "react-router-redux": "^4.0.2",
+    "redux": "^3.4.0",
+    "redux-form": "^5.0.1",
+    "redux-immutablejs": "0.0.8",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^2.0.1",
+    "reselect": "^2.3.0",
+    "socket.io-client": "^1.4.5",
+    "style-loader": "^0.13.1",
+    "webpack": "^1.12.14",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
