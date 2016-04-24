@@ -1,7 +1,8 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import Radium from 'radium';
-import { chatStyle, sidebarStyle, sidebarItemStyle } from '../constants/styles';
+import Sidebar from './sidebar';
+import { chatStyle } from '../constants/styles';
 
 const channels = [
   { id: 'everyone', name: 'Global Smack', onlineUsers: 5 }
@@ -72,17 +73,16 @@ export default class Chat extends Component {
     super(props);
     // Set the initial state.
     this.state = { currentChannel: null, currentUser: null };
+    // Bind the select functions so we can access 'this'.
+    this.selectChannel = ::this.selectChannel;
+    this.selectUser = ::this.selectUser;
   }
 
-  onClickChannel (channel, e) {
-    e.preventDefault();
-    // Set state will trigger a rerender. The channel will become selected...
+  selectChannel (channel) {
     this.setState({ currentChannel: channel, currentUser: null });
   }
 
-  onClickUser (user, e) {
-    e.preventDefault();
-    // Set state will trigger a rerender. The user will become selected...
+  selectUser (user) {
     this.setState({ currentChannel: null, currentUser: user });
   }
 
@@ -92,43 +92,15 @@ export default class Chat extends Component {
 
     return (
       <div style={styles.container}>
-        <div style={sidebarStyle.sidebar}>
-          <div style={sidebarStyle.search}>
-            Conversations
-          </div>
-          <ul style={sidebarStyle.list}>
-            {channels.map((channel) => {
-              const selected = currentChannel === channel;
-              return (
-                <li
-                  key={channel.id}
-                  style={[
-                    sidebarItemStyle.container.base,
-                    sidebarItemStyle.container.channel,
-                    selected && { color: 'red' }
-                  ]}
-                  onClick={this.onClickChannel.bind(this, channel)}>
-                  {channel.name}
-                </li>
-              );
-            })}
-            {users.map((user) => {
-              const selected = currentUser === user;
-              return (
-                <li
-                  key={user.id}
-                  style={[
-                    sidebarItemStyle.container.base,
-                    sidebarItemStyle.container.user,
-                    selected && { color: 'red' }
-                  ]}
-                  onClick={this.onClickUser.bind(this, user)}>
-                  {user.username}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <Sidebar
+          channels={channels}
+          currentChannel={currentChannel}
+          currentUser={currentUser}
+          style={styles.sidebar}
+          users={users}
+          onClickChannel={this.selectChannel}
+          onClickUser={this.selectUser} />
+
         <div style={styles.chatContainer}>
           <div>Header</div>
           <div>Messages</div>
