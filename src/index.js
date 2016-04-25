@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import io from 'socket.io-client';
 import createStore from './createStore';
-import sockets from './data/sockets';
+// import sockets from './data/sockets';
 
 // The reducers in our chat application.
 import { combineReducers } from 'redux-immutablejs';
@@ -19,7 +19,7 @@ import Chat from './pages/chat';
 import Login from './pages/login';
 import Wrapper from './app/view';
 
-import { login } from './data/actions';
+// import { login } from './data/actions';
 
 const socketURL = 'http://localhost:9001';
 const options = {
@@ -72,12 +72,12 @@ if (process.env.NODE_ENV !== 'production') {
 const store = createStore(socket, hashHistory, reducer);
 
 // Attach listeners on the socket, and dispatch the events to the store.
-sockets(socket, store);
+// sockets(socket, store);
 
 // When initializing the chat app, try to login with the username from local storage.
-if (localStorage.username) {
-  store.dispatch(login({ username: localStorage.username }));
-}
+// if (localStorage.username) {
+//   store.dispatch(login({ username: localStorage.username }));
+// }
 
 // Create an enhanced history that syncs navigation events with the store.
 const browserHistory = syncHistoryWithStore(hashHistory, store, { selectLocationState: (state) => state.get('router') });
