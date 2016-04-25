@@ -134,6 +134,7 @@ export default class Sidebar extends Component {
   * 'Less is more': keep components easy to understand by keeping them small.
   * 1) Create a folder 'chat' in the 'pages' folder. Create a folder sidebar in
   *    the 'chat' folder. Move the sidebar.js file to the 'sidebar' folder and
+  *    rename the file to index.js. Move the chat.js file to the 'chat' folder and
   *    rename the file to index.js. Fix all linting error, i.e. fix the paths.
   * 2) Create a new component Channel in a new file 'channel.js' in the 'sidebar'
   *    folder.
@@ -181,4 +182,7 @@ export default class Sidebar extends Component {
   *    Use Immutable datastructures where needed. You can access a propery of a Map
   *    like this "user.get('username')". You can use map in the same way as on
   *    an ordinary Array.
+  *
+  * Bonus:
+  *   Create a Messages component which displays the messages of a channel or user.
   */
