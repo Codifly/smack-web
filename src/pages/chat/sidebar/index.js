@@ -1,7 +1,10 @@
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
-import { sidebarStyle, sidebarItemStyle } from '../constants/styles';
+import ImmutablePropTypes from 'react-immutable-proptypes';
+import Channel from './channel';
+import User from './user';
+import { sidebarStyle } from '../../../constants/styles';
 
 /**
   * ### Exercise 3
@@ -62,11 +65,11 @@ import { sidebarStyle, sidebarItemStyle } from '../constants/styles';
 export default class Sidebar extends Component {
 
   static propTypes = {
-    channels: PropTypes.array.isRequired,
-    currentChannel: PropTypes.object,
-    currentUser: PropTypes.object,
+    channels: ImmutablePropTypes.list.isRequired,
+    currentChannel: ImmutablePropTypes.map,
+    currentUser: ImmutablePropTypes.map,
     style: PropTypes.object.isRequired,
-    users: PropTypes.array.isRequired,
+    users: ImmutablePropTypes.list.isRequired,
     onClickChannel: PropTypes.func.isRequired,
     onClickUser: PropTypes.func.isRequired
   };
@@ -85,7 +88,10 @@ export default class Sidebar extends Component {
 
   render () {
     const styles = sidebarStyle;
-    const { channels, currentChannel, currentUser, style, users } = this.props;
+    const {
+      channels, currentChannel, currentUser, style, users,
+      onClickChannel, onClickUser
+    } = this.props;
 
     return (
       <div style={style}>
@@ -93,36 +99,20 @@ export default class Sidebar extends Component {
           Conversations
         </div>
         <ul style={styles.list}>
-          {channels.map((channel) => {
-            const selected = currentChannel === channel;
-            return (
-              <li
-                key={channel.id}
-                style={[
-                  sidebarItemStyle.container.base,
-                  sidebarItemStyle.container.channel,
-                  selected && { color: 'red' }
-                ]}
-                onClick={this.onClickChannel.bind(this, channel)}>
-                {channel.name}
-              </li>
-            );
-          })}
-          {users.map((user) => {
-            const selected = currentUser === user;
-            return (
-              <li
-                key={user.id}
-                style={[
-                  sidebarItemStyle.container.base,
-                  sidebarItemStyle.container.user,
-                  selected && { color: 'red' }
-                ]}
-                onClick={this.onClickUser.bind(this, user)}>
-                {user.username}
-              </li>
-            );
-          })}
+          {channels.map((channel) => (
+            <Channel
+              channel={channel}
+              key={channel.get('id')}
+              selected={(currentChannel && currentChannel.get('id')) === channel.get('id')}
+              onClickChannel={onClickChannel} />
+          ))}
+          {users.map((user) => (
+            <User
+              key={user.get('id')}
+              selected={(currentUser && currentUser.get('id')) === user.get('id')}
+              user={user}
+              onClickUser={onClickUser} />
+          ))}
         </ul>
       </div>
     );

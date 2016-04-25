@@ -1,17 +1,18 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import Radium from 'radium';
+import { fromJS } from 'immutable';
 import Sidebar from './sidebar';
-import { chatStyle } from '../constants/styles';
+import { chatStyle } from '../../constants/styles';
 
-const channels = [
+const channels = fromJS([
   { id: 'everyone', name: 'Global Smack', onlineUsers: 5 }
-];
-const users = [
+]);
+const users = fromJS([
   { id: '1', status: 'online', username: 'Bart' },
   { id: '2', status: 'online', username: 'Fred' },
   { id: '3', status: 'offline', username: 'Sofie' }
-];
+]);
 
 /**
   * ### Exercise 2
