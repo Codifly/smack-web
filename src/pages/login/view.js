@@ -1,7 +1,10 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable react/no-set-state */
-import React, { Component } from 'react';
-import { loginStyle } from '../constants/styles';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { loginStyle } from '../../constants/styles';
+import * as actions from './actions';
 
 const logo = require('./smackLogo.svg');
 
@@ -90,7 +93,14 @@ const logo = require('./smackLogo.svg');
   * How does a combined reducer work? (see 5)
   *   http://redux.js.org/docs/api/combineReducers.html
   */
+@connect(null, (dispatch) => ({
+  submit: bindActionCreators(actions.submit, dispatch)
+}))
 export default class Login extends Component {
+
+  static propTypes = {
+    submit: PropTypes.func.isRequired
+  };
 
   constructor (props) {
     super(props);
@@ -105,6 +115,7 @@ export default class Login extends Component {
 
   submit (e) {
     e.preventDefault();
+    this.props.submit({ username: this.usernameInput.value });
     console.warn('Hello ', this.usernameInput.value, '!');
   }
 

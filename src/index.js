@@ -4,19 +4,19 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import io from 'socket.io-client';
 import createStore from './createStore';
-// import sockets from './data/sockets';
+import sockets from './data/sockets';
 
 // The reducers in our chat application.
 import { combineReducers } from 'redux-immutablejs';
 // import chatReducer from './pages/chat/reducer';
 // import loginReducer from './pages/login/reducer';
-// import dataReducer from './data/reducer';
+import dataReducer from './data/reducer';
 // import { reducer as formReducer } from 'redux-form';
 import { routerReducer as routerReducer, syncHistoryWithStore } from 'react-router-redux';
 
 // The pages in our chat application.
 import Chat from './pages/chat';
-import Login from './pages/login';
+import Login from './pages/login/view';
 import Wrapper from './app/view';
 
 // import { login } from './data/actions';
@@ -52,7 +52,7 @@ const routes = (
  */
 const reducer = combineReducers({
   // chat: chatReducer,
-  // data: dataReducer,
+  data: dataReducer,
   // form: formReducer,
   // login: loginReducer,
   router: routerReducer
@@ -72,7 +72,7 @@ if (process.env.NODE_ENV !== 'production') {
 const store = createStore(socket, hashHistory, reducer);
 
 // Attach listeners on the socket, and dispatch the events to the store.
-// sockets(socket, store);
+sockets(socket, store);
 
 // When initializing the chat app, try to login with the username from local storage.
 // if (localStorage.username) {
