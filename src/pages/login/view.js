@@ -9,6 +9,90 @@ import * as actions from './actions';
 const logo = require('./smackLogo.svg');
 
 /**
+  * ### Exercise 7
+  * Let's try out redux-form, a higher order component to keep form state in a
+  * Redux store as state container! The goal of this exercise is to refactor the
+  * login page, using redux-form to keep track of the username field and submit the form.
+  * Now you should have a all the knowledge to finalise the application.
+  * 1) First of all we need to include the redux-form reducer in the combineReducers
+  *    (see index.js in the root folder), in the same way as we included the data
+  *    reducer.
+  * 2) Instead of using 'connect' to connect our Login component to the store,
+  *    we will now use reduxForm to connect to the store. dispatch the submit action
+  *    with the form fields when the onSubmit event of the form is triggered.
+  *    Tip: because we are using Immutable.js to construct our state, we need to
+  *    tell redux-form how to retrieve the plain JavaScript 'form' state from the
+  *    Immutable application state. Otherwise redux-form will try to retrieve,
+  *    state.form by default which is undefined. You should retrieve the form
+  *    state from the state (= Immutable Map) like this: state.get('form').
+  * 3) Use redux-form submitting field to disable the login button, when submitting
+  *    the login form.
+  * 4) Currently we see ourself in the sidebar... Filter the current logged in user.
+  *    Create a new reducer (pages/login/reducer.js) and listen to LOGIN_SUCCESS.
+  *    Don't forget to include the new reducer (src/index.js).
+  *    Store the user id of the user that is logged in. Create a selector to get
+  *    the current user id from the state (pages/login/selector.js). Add the selector
+  *    to the createSelector combiner, to filter the current user from the user list.
+  * Bonus:
+  * Check out the smack-server and see which events are used. You can emit 'userMessages'
+  * to retrieve the messages of a user. The server will respond with the 'userMessages'
+  * event and a list of messages of the given user in the payload.
+  * Now you should have all the ingredients to finalise the chat application.
+  * If there are any questions, shoot!
+  * Tips:
+  * How do I use redux-form?
+  *   http://redux-form.com/5.2.3/#/examples/simple?_k=uvzn8k
+  * How does redux-form work with Immutable.js?
+  *   http://redux-form.com/5.2.3/#/faq/immutable-js
+  */
+@connect(null, (dispatch) => ({
+  submit: bindActionCreators(actions.submit, dispatch)
+}))
+export default class Login extends Component {
+
+  static propTypes = {
+    submit: PropTypes.func.isRequired
+  };
+
+  constructor (props) {
+    super(props);
+    this.handleChange = ::this.handleChange;
+    this.submit = ::this.submit;
+    this.state = { username: '' };
+  }
+
+  handleChange (e) {
+    this.setState({ username: e.target.value });
+  }
+
+  submit (e) {
+    e.preventDefault();
+    this.props.submit({ username: this.usernameInput.value });
+    console.warn('Hello ', this.usernameInput.value, '!');
+  }
+
+  render () {
+    const styles = loginStyle;
+    return (
+      <div style={styles.container}>
+        <form style={styles.form} onSubmit={this.submit}>
+          <img src={logo} style={styles.logo} />
+          <input
+            autoComplete='off'
+            placeholder='Your name'
+            ref={(c) => this.usernameInput = c}
+            style={styles.input}
+            type='text'
+            onChange={this.handleChange}/>
+          {this.state.username && <div>Hello {this.state.username}!</div>}
+          <button style={styles.button} type='submit'>Join</button>
+        </form>
+      </div>
+    );
+  }
+}
+
+/**
   * ### Exercise 5
   * Let's get started with Redux as state container! The goal of this exercise
   * is to login and navigate to the chat page. We therefore comminicate with the
@@ -93,49 +177,3 @@ const logo = require('./smackLogo.svg');
   * How does a combined reducer work? (see 5)
   *   http://redux.js.org/docs/api/combineReducers.html
   */
-@connect(null, (dispatch) => ({
-  submit: bindActionCreators(actions.submit, dispatch)
-}))
-export default class Login extends Component {
-
-  static propTypes = {
-    submit: PropTypes.func.isRequired
-  };
-
-  constructor (props) {
-    super(props);
-    this.handleChange = ::this.handleChange;
-    this.submit = ::this.submit;
-    this.state = { username: '' };
-  }
-
-  handleChange (e) {
-    this.setState({ username: e.target.value });
-  }
-
-  submit (e) {
-    e.preventDefault();
-    this.props.submit({ username: this.usernameInput.value });
-    console.warn('Hello ', this.usernameInput.value, '!');
-  }
-
-  render () {
-    const styles = loginStyle;
-    return (
-      <div style={styles.container}>
-        <form style={styles.form} onSubmit={this.submit}>
-          <img src={logo} style={styles.logo} />
-          <input
-            autoComplete='off'
-            placeholder='Your name'
-            ref={(c) => this.usernameInput = c}
-            style={styles.input}
-            type='text'
-            onChange={this.handleChange}/>
-          {this.state.username && <div>Hello {this.state.username}!</div>}
-          <button style={styles.button} type='submit'>Join</button>
-        </form>
-      </div>
-    );
-  }
-}
