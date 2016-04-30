@@ -25,6 +25,7 @@ const messages = fromJS([
 ]);
 
 /**
+  * ### Exercise 6
   * +----------+------------------------+
   * | Sidebar  | Header                 |
   * |          |------------------------+
@@ -37,6 +38,56 @@ const messages = fromJS([
   * |          |------------------------|
   * |          | (Send message)         |
   * +----------+------------------------+
+  * In this exercise you will learn how to store data received from the
+  * server in the application state and you can use it in your components.
+  * First of all we want to show a real list of users in the sidebar.
+  * 1) Similar to the 'login' event we want to listen to the 'users' event.
+  *    After login the client receives a list of users. dispatch the action with
+  *    type USERS_FETCH and with the 'data' (users) received. Define you action
+  *    type in the actions.js file.
+  * 2) 'Listen' to this action type in the data reducer and store the users in
+  *    the application state. The structure of the data state should look like this:
+  *    {
+  *      entities: {
+  *        users: {
+  *          1: {
+  *            id: '1',
+  *            status: 'online',
+  *            username: 'Bart'
+  *          },
+  *        }
+  *      },
+  *      relations: {
+  *        chatHasUsers: [ '1' ]
+  *      }
+  *    }
+  *    Use the Map and List datastructure of Immutable.js or fromJS to transform
+  *    ordinairy JavaScript datastructures to Immutable.js datastructures.
+  *    Use the module 'normalizr' to transform the data coming from the server.
+  * 3) Use the module 'reselect' to compute derived data from our state,
+  *    which allows Redux to store the minimal possible state.
+  *    First, create a selector (in data/selector.js) that selects the user ids
+  *    (chatHasUsers) from data state (which is an Immutable Map). Then create
+  *    a selector (also in data/selector.js) for the user entities Map.
+  *    Then we need to combine both selectors, using reselect's createSelector.
+  *    Create a selector (in pages/chat/selector.js) which retrieves a List of users from the state.
+  *    Create a users List by mapping over the id's and retrieving the user from
+  *    the user entities Map.
+  *    Lastly, export a new selector (in pages/chat/selector.js) which constructs
+  *    an object { users: List(...) }.
+  * 4) Connect the Chat component to our Redux store, using the react-redux connect
+  *    decorator. Take a look at the connector of the Login component. Use the
+  *    selector (mapStateToProps function) we just created in the connect
+  *    decorator of our Chat component.
+  * 5) Update the propTypes of the Chat component and make use of the users List
+  *    retrieved from the Redux store. Remove the users dummy data.
+  * Tips:
+  * How can I normalize JSON data, coming from the server, in a consistant way? (see 2)
+  *   https://github.com/gaearon/normalizr
+  * How can I use reselect to compute derived data? (see 3)
+  *   https://github.com/reactjs/reselect
+  * How can I connect a selector to the Redux store? (see 4)
+  *   https://github.com/reactjs/reselect#connecting-a-selector-to-the-redux-store
   */
 @Radium
 export default class Chat extends Component {
