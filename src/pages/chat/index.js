@@ -1,20 +1,18 @@
 /* eslint-disable react/no-set-state */
 import React, { Component } from 'react';
 import Radium from 'radium';
+import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
+import ImmutablePropTypes from 'react-immutable-proptypes';
 import Header from './header';
 import Messages from './messages';
 import Sidebar from './sidebar';
+import selector from './selector';
 
 import { chatStyle } from '../../constants/styles';
 
 const channels = fromJS([
   { id: 'everyone', name: 'Global Smack', onlineUsers: 5 }
-]);
-const users = fromJS([
-  { id: '1', status: 'online', username: 'Bart' },
-  { id: '2', status: 'online', username: 'Fred' },
-  { id: '3', status: 'offline', username: 'Sofie' }
 ]);
 const myUser = fromJS({ id: '4', status: 'online', username: 'Tony' });
 const messages = fromJS([
@@ -89,8 +87,13 @@ const messages = fromJS([
   * How can I connect a selector to the Redux store? (see 4)
   *   https://github.com/reactjs/reselect#connecting-a-selector-to-the-redux-store
   */
+@connect(selector)
 @Radium
 export default class Chat extends Component {
+
+  static propTypes = {
+    users: ImmutablePropTypes.list.isRequired
+  };
 
   constructor (props) {
     super(props);
@@ -111,6 +114,7 @@ export default class Chat extends Component {
 
   render () {
     const styles = chatStyle;
+    const { users } = this.props;
     const { currentChannel, currentUser } = this.state;
 
     return (
