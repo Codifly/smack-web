@@ -1,11 +1,20 @@
 import { createSelector } from 'reselect';
 import { usersEntitiesSelector, chatHasUsersRelationsSelector } from '../../data/selector';
 
+export const myUserIdSelector = (state) => state.getIn([ 'login', 'myUserId' ]);
+
 // Select the user list from the state.
 const usersSelector = createSelector(
   usersEntitiesSelector,
   chatHasUsersRelationsSelector,
-  (usersById, userIds) => userIds.map((id) => usersById.get(id))
+  myUserIdSelector,
+  (usersById, userIds, myUserId) => (
+    userIds
+      // Filter myself.
+      .filter((id) => id !== myUserId)
+      // Get the user by id.
+      .map((id) => usersById.get(id))
+  )
 );
 
 // Selector used to retrieve the needed data from the state.

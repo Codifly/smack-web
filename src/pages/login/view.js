@@ -1,10 +1,9 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable react/no-set-state */
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { reduxForm } from 'redux-form';
 import { loginStyle } from '../../constants/styles';
-import * as actions from './actions';
+import { submit } from './actions';
 
 const logo = require('./smackLogo.svg');
 
@@ -45,47 +44,44 @@ const logo = require('./smackLogo.svg');
   * How does redux-form work with Immutable.js?
   *   http://redux-form.com/5.2.3/#/faq/immutable-js
   */
-@connect(null, (dispatch) => ({
-  submit: bindActionCreators(actions.submit, dispatch)
-}))
+@reduxForm({
+  form: 'login',
+  fields: [ 'username' ],
+    // Get the form state. // TODO: fix this bug
+  getFormState: (state, reduxMountPoint) => state.get(reduxMountPoint)
+})
 export default class Login extends Component {
 
   static propTypes = {
-    submit: PropTypes.func.isRequired
+    fields: PropTypes.object.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
+    submitting: PropTypes.bool.isRequired
   };
 
   constructor (props) {
     super(props);
-    this.handleChange = ::this.handleChange;
     this.submit = ::this.submit;
-    this.state = { username: '' };
   }
 
-  handleChange (e) {
-    this.setState({ username: e.target.value });
-  }
-
-  submit (e) {
-    e.preventDefault();
-    this.props.submit({ username: this.usernameInput.value });
-    console.warn('Hello ', this.usernameInput.value, '!');
+  submit (values, dispatch) {
+    dispatch(submit(values));
   }
 
   render () {
     const styles = loginStyle;
+    const { fields: { username }, handleSubmit, submitting } = this.props;
+
     return (
       <div style={styles.container}>
-        <form style={styles.form} onSubmit={this.submit}>
+        <form style={styles.form} onSubmit={handleSubmit(this.submit)}>
           <img src={logo} style={styles.logo} />
           <input
+            {...username}
             autoComplete='off'
             placeholder='Your name'
-            ref={(c) => this.usernameInput = c}
             style={styles.input}
-            type='text'
-            onChange={this.handleChange}/>
-          {this.state.username && <div>Hello {this.state.username}!</div>}
-          <button style={styles.button} type='submit'>Join</button>
+            type='text' />
+          <button disabled={submitting} style={styles.button} type='submit'>Join</button>
         </form>
       </div>
     );
