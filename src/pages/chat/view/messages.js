@@ -2,7 +2,32 @@ import React, { Component, PropTypes } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import Message from './message';
 import SendMessage from './sendMessage';
-import { messagesStyle } from '../../../constants/styles';
+
+import styled from 'styled-components';
+import { colors } from '../../../constants/colors';
+
+const MessagesUl = styled.ul`
+  bottom: 80px;
+  left: 280px;
+  margin: 0;
+  overflow-y: scroll;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 80px;
+`;
+/*
+const SendMessage = styled.div`
+  background-color: ${colors.lightGrey};
+  border-top: 1px solid ${colors.grey};
+  bottom: 0;
+  height: 80px;
+  left: 280px;
+  padding: 20px;
+  position: absolute;
+  right: 0;
+`;
+*/
 
 export default class Messages extends Component {
 
@@ -27,20 +52,18 @@ export default class Messages extends Component {
   }
 
   render () {
-    const styles = messagesStyle;
     const { messages, myUser, style, onSendMessage } = this.props;
     const myUserId = myUser.get('id');
 
     /* eslint no-return-assign: 0 */
     return (
       <div style={style}>
-        <ul ref={(c) => this.list = c} style={styles.messages}>
+        <MessagesUl ref={(c) => this.list = c}>
           {messages.map((message) => (
             <Message isMyMessage={myUserId === message.get('userId')} key={message.get('id')} message={message} />)
           )}
-        </ul>
+        </MessagesUl>
         <SendMessage
-          style={styles.sendMessage}
           onSubmit={onSendMessage} />
       </div>
     );

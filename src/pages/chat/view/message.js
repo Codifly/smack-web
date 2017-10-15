@@ -1,9 +1,69 @@
 import React, { Component, PropTypes } from 'react';
-import Radium from 'radium';
 import ImmutablePropTypes from 'react-immutable-proptypes';
-import { messageStyle } from '../../../constants/styles';
 
-@Radium
+import styled, { css } from 'styled-components';
+import { colors } from '../../../constants/colors';
+
+const MessageContainerBase = styled.li`
+  list-style-type: none;
+  padding: 10px 20px 10px 20px;
+
+  ${props => props.mine && css`
+    text-align: right;
+  `}
+`;
+
+const MessageBase = styled.div`
+  background-color: ${colors.lightGrey};
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+  display: inline-block;
+  margin-top: 16px;
+  padding: 20px;
+
+  ${props => props.mine && css`
+    background-color: ${colors.darkPurple};
+    border-top-left-radius: 20px;
+    border-top-right-radius: 0;
+    color: ${colors.white};
+  `}
+`;
+
+const MessageHeader = styled.div`
+  font-Size: 12px;
+`;
+
+const MessageIcon = styled.div`
+  align-Items: center;
+  border: solid 1px ${colors.grey};
+  border-Radius: 50%;
+  color: ${colors.darkPurple};
+  display: flex;
+  flex: 0 0 20px;
+  font-Size: 13px;
+  height: 20px;
+  justify-Content: center;
+  width: 20px;
+`;
+
+const MessageIconContainer = styled.div`
+    display: inline-block;
+`;
+
+const MessageTimeStamp = styled.div`
+    color: ${colors.silver};
+    display: inline-block;
+    margin-Right: 13px;
+`;
+
+const MessageUsername = styled.div`
+    color: ${colors.darkPurple};
+    display: inline-block;
+    margin-Left: 13px;
+    margin-Right: 5px;
+`;
+
 export default class Message extends Component {
 
   static propTypes = {
@@ -18,29 +78,42 @@ export default class Message extends Component {
   }
 
   render () {
-    const styles = messageStyle;
     const { isMyMessage, message } = this.props;
     const username = message.get('username');
 
     const icon = (
-      <div style={styles.iconContainer}>
-        <div style={styles.icon}>{username.charAt(0).toUpperCase()}</div>
-      </div>
+      <MessageIconContainer>
+        <MessageIcon>{username.charAt(0).toUpperCase()}</MessageIcon>
+      </MessageIconContainer>
     );
 
-    return (
-      <li style={[ styles.container.base, isMyMessage && styles.container.mine ]}>
-        <div style={styles.header}>
-          {!isMyMessage && icon}
-          <div style={styles.username}>{username}</div>
-          <div style={styles.timestamp}>at {this.formatDate(message.get('timestamp'))}</div>
-          {isMyMessage && icon}
-        </div>
-        <div style={[ styles.message.base, isMyMessage && styles.message.mine ]}>
-          {message.get('message')}
-        </div>
-      </li>
-    );
+    if (isMyMessage) {
+      return (
+        <MessageContainerBase mine>
+          <MessageHeader>
+            <MessageUsername>{username}</MessageUsername>
+            <MessageTimeStamp>at {this.formatDate(message.get('timestamp'))}</MessageTimeStamp>
+            {icon}
+          </MessageHeader>
+          <MessageBase mine>
+            {message.get('message')}
+          </MessageBase>
+        </MessageContainerBase>
+      );
+    } else if (!isMyMessage) {
+      return (
+        <MessageContainerBase>
+          <MessageHeader>
+            {icon}
+            <MessageUsername>{username}</MessageUsername>
+            <MessageTimeStamp>at {this.formatDate(message.get('timestamp'))}</MessageTimeStamp>
+          </MessageHeader>
+          <MessageBase>
+            {message.get('message')}
+          </MessageBase>
+        </MessageContainerBase>
+      );
+    }
   }
 
 }
