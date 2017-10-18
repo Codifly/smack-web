@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import { reduxForm } from 'redux-form';
 import { submit } from './actions';
-//loginstyle
+
+//styled-components
 import styled from 'styled-components';
 import { colors } from '../../constants/colors';
 
-const logo = require('./smackLogo.svg');
-
-//FORMS
+//mobx-react-form
 import validatorjs from 'validatorjs';
 import MobxReactForm from 'mobx-react-form';
 import { observer } from 'mobx-react';
+
+const logo = require('./smackLogo.svg');
 
 const fields = [{
   name: 'username',
@@ -24,15 +24,14 @@ const plugins = { dvr: validatorjs };
 
 const hooks = {
   onSuccess(form) {
-    alert('Form is valid! Send the request here.');
-    // get field values
-    console.log('Form Values!', form.values());
+    submit(form.values());
+    console.log(form.values());
   },
   onError(form) {
     // get all form errors
     console.log('All form errors', form.errors());
     // invalidate the form with a custom error message
-    form.invalidate('This is a generic error message!');
+    form.invalidate('Error message');
   },
 };
 
