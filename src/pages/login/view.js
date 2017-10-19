@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { submit } from './actions';
+import { login } from '../../data/actions';
 
 //styled-components
 import styled from 'styled-components';
@@ -24,8 +24,7 @@ const plugins = { dvr: validatorjs };
 
 const hooks = {
   onSuccess(form) {
-    submit(form.values());
-    console.log(form.values());
+    login(form.values());
   },
   onError(form) {
     // get all form errors

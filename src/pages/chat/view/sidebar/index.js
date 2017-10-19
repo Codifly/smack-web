@@ -31,7 +31,6 @@ export default class Sidebar extends Component {
     channels: ImmutablePropTypes.list.isRequired,
     currentChannel: ImmutablePropTypes.map,
     currentUser: ImmutablePropTypes.map,
-    style: PropTypes.object.isRequired,
     users: ImmutablePropTypes.list.isRequired,
     onClickChannel: PropTypes.func.isRequired,
     onClickUser: PropTypes.func.isRequired
@@ -39,12 +38,12 @@ export default class Sidebar extends Component {
 
   render () {
     const {
-      channels, currentChannel, currentUser, style, users,
+      channels, currentChannel, currentUser, users,
       onClickChannel, onClickUser
     } = this.props;
 
     return (
-      <div style={style}>
+      <div>
         <SidebarSearch>
           Conversations
         </SidebarSearch>

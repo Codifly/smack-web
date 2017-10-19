@@ -32,13 +32,13 @@ export default (state = fromJS({
   relations: { chatHasChannels: [ channelEveryone.id ], chatHasUsers: [], channelHasMessages: {}, userHasMessages: {} }
 }), action) => {
   switch (action.type) {
-    case actions.JOINED_CHAT: // action.data = { id, status, username }
+    case actions.JOINED_CHAT: // action.data = { id, status, username } ---DONE_MOBX---
     case actions.LEFT_CHAT: {
       const user = action.data;
       return addUser(state, user.id)
        .mergeIn([ 'entities', 'users', user.id ], Map(user));
     }
-    case actions.LOGIN_SUCCESS: { // action.data = { id, status, username }
+    case actions.LOGIN_SUCCESS: { // action.data = { id, status, username } ---DONE_MOBX---
       const user = action.data;
       return state.mergeIn([ 'entities', 'users', user.id ], Map(user));
     }

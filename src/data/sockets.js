@@ -6,25 +6,47 @@ import {
   SEND_USER_MESSAGE, USER_MESSAGES_FETCH, USERS_FETCH
 } from './actions';
 
+import smackStore from './smackStore';
+
 export default (socket, { dispatch }) => { // (socket, store)
   // Someone joined the chat.
   socket.on('joinedChat', (data) => { // { id, status, username }
     dispatch({ data, type: JOINED_CHAT });
+
+    /* MobX implementation
+    smackStore.joinedChat(data);
+    */
   });
 
   // I'm succesfully logged in!
   socket.on('login', (data) => { // { id, status, username }
     dispatch({ data, type: LOGIN_SUCCESS });
     dispatch(push('/chat'));
+
+    /* MobX implementation
+    const user = data;
+    smackStore.myUserId = data.id;
+    localStorage.username = user.username;
+    smackStore.loginSucces(data);
+    */
   });
 
   socket.on('logout', () => {
     dispatch({ type: LOGOUT_SUCCESS });
     dispatch(push('/login'));
+
+    /* MobX implementation
+    smackStore.myUserId = undefined;
+    Reflect.deleteProperty(localStorage, 'username');
+    */
   });
 
   socket.on('leftChat', (data) => { // { id, status, username }
     dispatch({ data, type: LEFT_CHAT });
+
+    /* MobX implementation
+    smackStore.leftChat(data);
+    */
   });
 
   // I received some messages of a chat channel.
@@ -32,6 +54,7 @@ export default (socket, { dispatch }) => { // (socket, store)
     dispatch({ data, type: CHANNEL_MESSAGES_FETCH });
   });
 
+  // I received some messages from users.
   socket.on('userMessages', (data) => { // { messages, userId }
     dispatch({ data, type: USER_MESSAGES_FETCH });
   });
@@ -56,5 +79,11 @@ export default (socket, { dispatch }) => { // (socket, store)
     dispatch({ data, type: USERS_FETCH });
     // Fetch messages of each user.
     data.forEach(({ id }) => dispatch(fetchUserMessages({ userId: id })));
+
+    /* MobX implementation
+    smackStore.usersFetch(data);
+    data.forEach(({id}) => fetchUserMessages({ userId: id }));
+    */
+
   });
 };
