@@ -42,12 +42,12 @@ export default (state = fromJS({
       const user = action.data;
       return state.mergeIn([ 'entities', 'users', user.id ], Map(user));
     }
-    case actions.RECEIVE_CHANNEL_MESSAGE: { // action.data =  { channelId, message: { id, message, timestamp, userId } }
+    case actions.RECEIVE_CHANNEL_MESSAGE: { // action.data =  { channelId, message: { id, message, timestamp, userId } } ---DONE_MOBX---
       const { channelId, message } = action.data;
       return addChannelMessage(state, channelId, message.id)
         .mergeIn([ 'entities', 'messages', message.id ], Map(message));
     }
-    case actions.RECEIVE_USER_MESSAGE: { // action.data =  { id, message, timestamp, userId }
+    case actions.RECEIVE_USER_MESSAGE: { // action.data =  { id, message, timestamp, userId } ---DONE_MOBX---
       const message = action.data;
       return addUserMessage(state, message.userId, message.id)
         .mergeIn([ 'entities', 'messages', message.id ], Map(message));
@@ -71,7 +71,7 @@ export default (state = fromJS({
         .mergeIn([ 'entities', 'messages' ], messageEntities)
         .setIn([ 'relations', 'userHasMessages', userId ], List(messageResult));
     }
-    case actions.USERS_FETCH: // action.data = [{ id, username, status }]
+    case actions.USERS_FETCH: // action.data = [{ id, username, status }] ---DONE_MOBX---
       const users = action.data;
       const { entities: { users: userEntities }, result: userResult } = normalize(users, arrayOf(userSchema));
       return state
