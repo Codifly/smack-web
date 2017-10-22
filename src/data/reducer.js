@@ -32,46 +32,46 @@ export default (state = fromJS({
   relations: { chatHasChannels: [ channelEveryone.id ], chatHasUsers: [], channelHasMessages: {}, userHasMessages: {} }
 }), action) => {
   switch (action.type) {
-    case actions.JOINED_CHAT: // action.data = { id, status, username }
+    case actions.JOINED_CHAT: // action.data = { id, status, username } ---DONE_MOBX---
     case actions.LEFT_CHAT: {
       const user = action.data;
       return addUser(state, user.id)
        .mergeIn([ 'entities', 'users', user.id ], Map(user));
     }
-    case actions.LOGIN_SUCCESS: { // action.data = { id, status, username }
+    case actions.LOGIN_SUCCESS: { // action.data = { id, status, username } ---DONE_MOBX---
       const user = action.data;
       return state.mergeIn([ 'entities', 'users', user.id ], Map(user));
     }
-    case actions.RECEIVE_CHANNEL_MESSAGE: { // action.data =  { channelId, message: { id, message, timestamp, userId } }
+    case actions.RECEIVE_CHANNEL_MESSAGE: { // action.data =  { channelId, message: { id, message, timestamp, userId } } ---DONE_MOBX---
       const { channelId, message } = action.data;
       return addChannelMessage(state, channelId, message.id)
         .mergeIn([ 'entities', 'messages', message.id ], Map(message));
     }
-    case actions.RECEIVE_USER_MESSAGE: { // action.data =  { id, message, timestamp, userId }
+    case actions.RECEIVE_USER_MESSAGE: { // action.data =  { id, message, timestamp, userId } ---DONE_MOBX---
       const message = action.data;
       return addUserMessage(state, message.userId, message.id)
         .mergeIn([ 'entities', 'messages', message.id ], Map(message));
     }
-    case actions.SEND_USER_MESSAGE: { // action.data =  { message: { id, message, timestamp, userId }, userId }
+    case actions.SEND_USER_MESSAGE: { // action.data =  { message: { id, message, timestamp, userId }, userId } ---DONE_MOBX---
       const { message, userId } = action.data;
       return addUserMessage(state, userId, message.id)
         .mergeIn([ 'entities', 'messages', message.id ], Map(message));
     }
-    case actions.CHANNEL_MESSAGES_FETCH: { // action.data = { channelId, messages }
+    case actions.CHANNEL_MESSAGES_FETCH: { // action.data = { channelId, messages } ---DONE_MOBX---
       const { channelId, messages } = action.data;
       const { entities: { messages: messageEntities }, result: messageResult } = normalize(messages, arrayOf(messageSchema));
       return state
         .mergeIn([ 'entities', 'messages' ], messageEntities)
         .setIn([ 'relations', 'channelHasMessages', channelId ], List(messageResult));
     }
-    case actions.USER_MESSAGES_FETCH: { // action.data = { messages, userId }
+    case actions.USER_MESSAGES_FETCH: { // action.data = { messages, userId } ---DONE_MOBX---
       const { messages, userId } = action.data;
       const { entities: { messages: messageEntities }, result: messageResult } = normalize(messages, arrayOf(messageSchema));
       return state
         .mergeIn([ 'entities', 'messages' ], messageEntities)
         .setIn([ 'relations', 'userHasMessages', userId ], List(messageResult));
     }
-    case actions.USERS_FETCH: // action.data = [{ id, username, status }]
+    case actions.USERS_FETCH: // action.data = [{ id, username, status }] ---DONE_MOBX---
       const users = action.data;
       const { entities: { users: userEntities }, result: userResult } = normalize(users, arrayOf(userSchema));
       return state

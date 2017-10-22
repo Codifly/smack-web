@@ -14,6 +14,9 @@ import dataReducer from './data/reducer';
 import { reducer as formReducer } from 'redux-form';
 import { routerReducer as routerReducer, syncHistoryWithStore } from 'react-router-redux';
 
+// MobX stores.
+import smackStore from './data/smackStore';
+
  // The pages in our chat application.
 import Chat from './pages/chat/view';
 import Login from './pages/login/view';
@@ -28,7 +31,7 @@ const options = {
 };
 
 // Create a socket for communication via websockets.
-const socket = io(socketURL, options);
+export const socket = io(socketURL, options);
 
 /**
  * The application routes.
@@ -75,7 +78,7 @@ sockets(socket, store);
 
 // When initializing the chat app, try to login with the username from local storage.
 if (localStorage.username) {
-  store.dispatch(login({ username: localStorage.username }));
+  login({ username: localStorage.username });
 }
 
 // Create an enhanced history that syncs navigation events with the store.

@@ -15,30 +15,22 @@ export const SEND_USER_MESSAGE = 'SEND_USER_MESSAGE';
 export const USER_MESSAGES_FETCH = 'USER_MESSAGES_FETCH';
 export const USERS_FETCH = 'USERS_FETCH';
 
+import { socket } from '../index';
+
 /**
  * Send a request to the server (via websockets) to join the chat.
  * @param {Object} params
  * @param {string} params.username
  */
 export function login ({ username }) {
-  return {
-    event: 'joinChat',
-    data: { username },
-    meta: { remote: true },
-    type: REQUEST_LOGIN
-  };
+  socket.emit('joinChat', { username });
 }
 
 /**
  * Send a request to the server (via websockets) to leave the chat.
  */
 export function logout () {
-  return {
-    event: 'logout',
-    data: {},
-    meta: { remote: true },
-    type: REQUEST_LOGOUT
-  };
+  socket.emit('logout', {});
 }
 
 /**
@@ -54,6 +46,8 @@ export function fetchChannelMessages ({ channelId }) {
     meta: { remote: true },
     type: REQUEST_CHANNEL_MESSAGES
   };
+
+  //socket.emit('channelMessages', { channelId });
 }
 
 /**
@@ -69,6 +63,8 @@ export function fetchUserMessages ({ userId }) {
     meta: { remote: true },
     type: REQUEST_USER_MESSAGES
   };
+
+  //socket.emit('userMessages', { userId });
 }
 
 /**
@@ -84,6 +80,8 @@ export function persistChannelMessage ({ channelId, message }) {
     meta: { remote: true },
     type: REQUEST_MESSAGE
   };
+
+  //socket.emit('channelMessage', { channelId, message });
 }
 
 /**
@@ -99,4 +97,6 @@ export function persistUserMessage ({ message, userId }) {
     meta: { remote: true },
     type: REQUEST_MESSAGE
   };
+
+  //socket.emit('userMessage', {message, userId})
 }
