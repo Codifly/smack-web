@@ -53,6 +53,24 @@ class SmackStore {
         this.messages[message.id] = message;
         this.userHasMessages[message.userId].push(message);
     }
+
+    sendUserMessage(data) { // data =  { message: { id, message, timestamp, userId }, userId }
+        const message = data.message;
+        this.messages[message.id] = message;
+        this.userHasMessages[data.userId].push(message);
+    }
+
+    channelMessagesFetch(data) { // data = { channelId, messages }
+        const { channelId, messages } = data;
+        messages.array.forEach((message) => { this.messages[message.id] = message; });
+        this.channelHasMessages[channelId] = messages;
+    }
+    userMessagesFetch(data) { // data = { messages, userId }
+        const { messages, userId } = action.data;
+        messages.array.forEach((message) => { this.messages[message.id] = message; });
+        this.userHasMessages[userId] = messages;
+    }
+
 }
 
 const smackStore = new SmackStore();

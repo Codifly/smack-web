@@ -52,19 +52,19 @@ export default (state = fromJS({
       return addUserMessage(state, message.userId, message.id)
         .mergeIn([ 'entities', 'messages', message.id ], Map(message));
     }
-    case actions.SEND_USER_MESSAGE: { // action.data =  { message: { id, message, timestamp, userId }, userId }
+    case actions.SEND_USER_MESSAGE: { // action.data =  { message: { id, message, timestamp, userId }, userId } ---DONE_MOBX---
       const { message, userId } = action.data;
       return addUserMessage(state, userId, message.id)
         .mergeIn([ 'entities', 'messages', message.id ], Map(message));
     }
-    case actions.CHANNEL_MESSAGES_FETCH: { // action.data = { channelId, messages }
+    case actions.CHANNEL_MESSAGES_FETCH: { // action.data = { channelId, messages } ---DONE_MOBX---
       const { channelId, messages } = action.data;
       const { entities: { messages: messageEntities }, result: messageResult } = normalize(messages, arrayOf(messageSchema));
       return state
         .mergeIn([ 'entities', 'messages' ], messageEntities)
         .setIn([ 'relations', 'channelHasMessages', channelId ], List(messageResult));
     }
-    case actions.USER_MESSAGES_FETCH: { // action.data = { messages, userId }
+    case actions.USER_MESSAGES_FETCH: { // action.data = { messages, userId } ---DONE_MOBX---
       const { messages, userId } = action.data;
       const { entities: { messages: messageEntities }, result: messageResult } = normalize(messages, arrayOf(messageSchema));
       return state
